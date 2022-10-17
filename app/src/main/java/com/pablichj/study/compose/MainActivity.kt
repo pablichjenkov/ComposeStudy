@@ -30,6 +30,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    /** A Router and a RouterState are intended to be provided per each OS platform.
+                     * Android is based on NavHost and NavController but Desktop could be using
+                     * something different.
+                     * */
                     ComposeStudy(
                         composeStudyViewModel = composeStudyViewModel,
                         routerState = composeStudyViewModel.routerState,
@@ -41,23 +45,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-/*
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ComposeStudyTheme {
-
-        // TODO(Pablo): Place the PreviewComposeStudyState class in a debug variant only
-        val previewComposeStudyState = object : IComposeStudyState {
-            override val homeState: IHomeState
-                get() = HomeState()
-            override val orderState: String
-                get() = "orderState"
-            override val accountState: String
-                get() = "accountState"
-        }
-
-        ComposeStudy(Modifier.fillMaxSize(), previewComposeStudyState)
-    }
-}*/
