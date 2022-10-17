@@ -17,7 +17,7 @@ fun ComposeStudy(
 ) {
 
     val currentRoute = remember {
-        composeStudyViewModel.routerState.routeFlow.value
+        composeStudyViewModel.routerState.currentRoute
     }
     SideEffect {
         Log.d("ComposeStudy", "Pablo currentRoute = $currentRoute")

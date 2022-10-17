@@ -16,10 +16,15 @@
 
 package com.pablichj.study.compose.router
 
-import androidx.compose.runtime.*
+import android.os.Bundle
+import android.util.Log
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.pablichj.study.compose.account.accountGraph
@@ -45,19 +50,36 @@ internal fun Router(
         accountGraph(navController)
     }
 
-    val route = routerState.routeFlow.collectAsStateWithLifecycle().value
+    val route = routerState
+        .routeFlow.collectAsStateWithLifecycle("Ignore initial state").value
 
-    LaunchedEffect(key1 = route) {
-        when (route) {
-            Screen.Home.route,
-            Screen.Orders.route,
-            Screen.Account.route -> {
-                navController.navigate(route)
-            }
-            else -> {
-                // Ignore initial route = ""
-            }
+    DisposableEffect(key1 = route) {
+
+        navController.addOnDestinationChangedListener { controller: NavController,
+                                                        destination: NavDestination,
+                                                        arguments: Bundle? ->
+            routerState.currentRoute = destination.route
         }
+
+        if (navController.currentDestination?.route != route) {
+            when (route) {
+                Screen.Home.route,
+                Screen.Orders.route,
+                Screen.Account.route -> {
+                    navController.navigate(route)
+                }
+                else -> {
+                    // Ignore initial route = "Ignore initial state"
+                }
+            }
+        } else {
+            Log.d("Router", "Pablo nextRoute = currentRoute = $route")
+        }
+
+        onDispose {
+            Log.d("Router", "Pablo Disposing LaunchEffect with route = $route")
+        }
+
     }
 
 }
