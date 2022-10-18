@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Home(
+fun HomeScreen(
     modifier: Modifier = Modifier,
     homeState: IHomeState,
     onTopButtonClick: () -> Unit

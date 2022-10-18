@@ -65,7 +65,7 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:$navigation_compose"
     implementation "androidx.compose.material3:material3:$compose_material3"
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_compose"
-    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha02"
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version"
 
     // Only Debug builds
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"

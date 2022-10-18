@@ -1,11 +1,9 @@
 package com.pablichj.study.compose.router
 
-import com.pablichj.study.compose.common.Screen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.launch
 
@@ -20,11 +18,11 @@ class RouterState(
 
     var currentRoute: String? = null
 
-    val _routeFlow = MutableSharedFlow<String>()
-    val routeFlow: Flow<String> = _routeFlow.conflate()
+    val _nodeFlow = MutableSharedFlow<Node>()
+    val nodeFlow: Flow<Node> = _nodeFlow.conflate()
 
-    fun navigate(screen: Screen) {
-        coroutineScope.launch { _routeFlow.emit(screen.route) }
+    fun navigate(node: Node) {
+        coroutineScope.launch { _nodeFlow.emit(node) }
     }
 
 }

@@ -1,22 +1,5 @@
-/*
- * Copyright 2022 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.pablichj.study.compose.router
 
-import android.os.Bundle
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -24,13 +7,16 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.pablichj.study.compose.account.accountGraph
-import com.pablichj.study.compose.common.Screen
+import com.pablichj.study.compose.home.HomeNode
 import com.pablichj.study.compose.home.homeGraph
+import com.pablichj.study.compose.order.OrdersNode
 import com.pablichj.study.compose.order.orderGraph
+
+open class Node(val route: String)
+object IgnoreNode : Node("IgnoreNode")
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -43,41 +29,38 @@ internal fun Router(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = Screen.Home.route
+        startDestination = HomeNode.route
     ) {
-        homeGraph(onTopButtonClick = { navController.navigate(Screen.Orders.route) })
+        homeGraph(onTopButtonClick = { navController.navigate(OrdersNode.route) })
         orderGraph()
         accountGraph(navController)
     }
 
-    val route = routerState
-        .routeFlow.collectAsStateWithLifecycle("Ignore initial state").value
+    val node: Node =
+        routerState.nodeFlow.collectAsStateWithLifecycle(initialValue = IgnoreNode).value
 
-    DisposableEffect(key1 = route) {
-
-        navController.addOnDestinationChangedListener { controller: NavController,
-                                                        destination: NavDestination,
-                                                        arguments: Bundle? ->
-            routerState.currentRoute = destination.route
+    when (node) {
+        IgnoreNode -> {
+            // Ignore initial route = "Ignore initial state"
         }
+        else -> {
+            navController.navigate(node.route)
+        }
+    }
 
-        if (navController.currentDestination?.route != route) {
-            when (route) {
-                Screen.Home.route,
-                Screen.Orders.route,
-                Screen.Account.route -> {
-                    navController.navigate(route)
-                }
-                else -> {
-                    // Ignore initial route = "Ignore initial state"
-                }
+    DisposableEffect(key1 = Unit) {
+
+        val destinationChangeListener =
+            NavController.OnDestinationChangedListener { controller, destination, arguments ->
+                routerState.currentRoute = destination.route
+                Log.d("Router", "Pablo currentRoute = $destination.route")
             }
-        } else {
-            Log.d("Router", "Pablo nextRoute = currentRoute = $route")
-        }
+
+        navController.addOnDestinationChangedListener(destinationChangeListener)
 
         onDispose {
-            Log.d("Router", "Pablo Disposing LaunchEffect with route = $route")
+            Log.d("Router", "Pablo Disposing LaunchEffect with route = $node")
+            navController.removeOnDestinationChangedListener(destinationChangeListener)
         }
 
     }

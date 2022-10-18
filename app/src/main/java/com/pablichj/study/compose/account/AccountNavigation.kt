@@ -24,13 +24,15 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.pablichj.study.compose.common.Screen
+import com.pablichj.study.compose.router.Node
+
+object AccountNode : Node("account")
 
 internal fun NavGraphBuilder.accountGraph(
     navController: NavController,
 ) {
 
-    composable(Screen.Account.route) {
+    composable(AccountNode.route) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally

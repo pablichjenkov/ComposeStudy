@@ -8,14 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.pablichj.study.compose.common.Screen
+import com.pablichj.study.compose.account.AccountNode
+import com.pablichj.study.compose.home.HomeNode
+import com.pablichj.study.compose.order.OrdersNode
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DrawerNavigationComponent(
     modifier: Modifier,
-    onItemClick: (screen: Screen) -> Unit,
+    onItemClick: (node: Node) -> Unit,
     content: @Composable () -> Unit
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -35,22 +37,22 @@ fun DrawerNavigationComponent(
 @Composable
 fun DrawerContentList(
     modifier: Modifier = Modifier,
-    onItemClick: (screen: Screen) -> Unit
+    onItemClick: (node: Node) -> Unit
 ) {
     Column(
         modifier.fillMaxSize().padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Card(onClick = { onItemClick(Screen.Home)}) {
+        Card(onClick = { onItemClick(HomeNode)}) {
             Text(text = "HOME")
         }
 
-        Card(onClick = {onItemClick(Screen.Orders)}) {
+        Card(onClick = {onItemClick(OrdersNode)}) {
             Text(text = "ORDER")
         }
 
-        Card(onClick = {onItemClick(Screen.Account)}) {
+        Card(onClick = {onItemClick(AccountNode)}) {
             Text(text = "ACCOUNT")
         }
 
@@ -61,7 +63,7 @@ fun DrawerContentList(
 @Composable
 fun DrawerContentModal(
     modifier: Modifier = Modifier,
-    onItemClick: (screen: Screen) -> Unit
+    onItemClick: (node: Node) -> Unit
 ) {
     ModalDrawerSheet(modifier = modifier) {
         DrawerContentList(onItemClick = onItemClick)

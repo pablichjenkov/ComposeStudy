@@ -21,14 +21,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.pablichj.study.compose.common.Screen
+import com.pablichj.study.compose.router.Node
+
+
+object OrdersNode : Node("orders")
 
 internal fun NavGraphBuilder.orderGraph() {
 
-    composable(Screen.Orders.route) {
+    composable(OrdersNode.route) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally

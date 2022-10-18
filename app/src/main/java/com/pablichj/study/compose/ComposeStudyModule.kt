@@ -3,20 +3,20 @@ package com.pablichj.study.compose
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import dagger.hilt.android.components.ViewModelComponent
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 object ComposeStudyModule {
 }
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 abstract class ComposeStudyModuleAdapter {
 
     @Binds
-    abstract fun bindHomeState(
-        composeStudyViewModel: ComposeStudyViewModel
-    ): IComposeStudyViewModel
+    abstract fun bindComposeStudyViewModel(
+        composeStudyViewModel: ComposeStudyState
+    ): IComposeStudyState
 
 }
