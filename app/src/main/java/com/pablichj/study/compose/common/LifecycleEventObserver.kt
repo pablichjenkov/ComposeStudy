@@ -10,13 +10,13 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 
 @Composable
-fun lifecycleEventObserver(
+fun LifecycleEventObserver(
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     onStart: () -> Unit,
     onStop: () -> Unit
 ) {
     // Safely update the current lambdas when a new one is provided
-    val currentOnStart: () -> Unit by rememberUpdatedState(newValue = onStart)
+    val currentOnStart by rememberUpdatedState(newValue = onStart)
     val currentOnStop by rememberUpdatedState(newValue = onStop)
 
     // If the enclosing lifecycleOwner changes, dispose and reset the effect

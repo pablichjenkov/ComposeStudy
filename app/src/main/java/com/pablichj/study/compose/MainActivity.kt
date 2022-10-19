@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.pablichj.study.compose.root.RootStateStateViewModel
+import androidx.navigation.NavGraphBuilder
 import com.pablichj.study.compose.root.NavigationDrawerRoot
+import com.pablichj.study.compose.root.RootStateStateViewModel
+import com.pablichj.study.compose.root.rootGraph
 import com.pablichj.study.compose.router.Router
 import com.pablichj.study.compose.ui.theme.ComposeStudyTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +38,10 @@ class MainActivity : ComponentActivity() {
                      * something different.
                      * */
                     NavigationDrawerRoot(rootState = rootState) {
-                        Router(routerState = rootState.routerState)
+                        Router(
+                            routerState = rootState.routerState,
+                            rootGraphBuilder = NavGraphBuilder::rootGraph
+                        )
                     }
                 }
             }

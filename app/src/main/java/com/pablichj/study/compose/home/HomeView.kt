@@ -18,6 +18,7 @@ import com.pablichj.study.compose.order.OrdersNode
 fun HomeScreen(
     modifier: Modifier = Modifier,
     homeState: IHomeState,
+    level: Int
 ) {
 
     val homeStateName = remember { mutableStateOf(homeState.name) }
@@ -27,11 +28,11 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.size(40.dp))
-        Text(text = "Home Screen")
+        Text(text = "Home Screen level: $level")
         Spacer(Modifier.size(40.dp))
         Button(
             onClick = {
-                homeState.routerState.navigate(OrdersNode)
+                homeState.routerState.navigate(HomeNode2)
             }
         ) {
             Text(text = "Home State = ${homeStateName.value}")
