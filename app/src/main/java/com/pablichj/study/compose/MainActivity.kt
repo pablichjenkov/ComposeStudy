@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.pablichj.study.compose.root.RootStateStateViewModel
+import com.pablichj.study.compose.root.NavigationDrawerRoot
 import com.pablichj.study.compose.router.Router
 import com.pablichj.study.compose.ui.theme.ComposeStudyTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    val composeStudyStateViewModel by viewModels<ComposeStudyStateViewModel>()
+    private val rootStateStateViewModel by viewModels<RootStateStateViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,17 +29,14 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-                    val composeStudyState = composeStudyStateViewModel.composeStudyState
+                    val rootState = rootStateStateViewModel.rootState
 
                     /** A Router and a RouterState are intended to be provided per each OS platform.
                      * Android is based on NavHost and NavController but Desktop could be using
                      * something different.
                      * */
-                    ComposeStudy(
-                        composeStudyViewModel = composeStudyState,
-                        routerState = composeStudyState.routerState,
-                    ) {
-                        Router(routerState = composeStudyState.routerState)
+                    NavigationDrawerRoot(rootState = rootState) {
+                        Router(routerState = rootState.routerState)
                     }
                 }
             }

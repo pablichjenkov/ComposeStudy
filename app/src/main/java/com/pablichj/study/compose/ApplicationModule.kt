@@ -1,4 +1,4 @@
-package com.pablichj.study.compose.wiring
+package com.pablichj.study.compose
 
 import com.pablichj.study.compose.common.DispatchersBin
 import dagger.Module
@@ -13,7 +13,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesDispatcherContainers(): DispatchersBin {
+    fun providesDispatchersBin(): DispatchersBin {
         return DispatchersBin()
     }
 

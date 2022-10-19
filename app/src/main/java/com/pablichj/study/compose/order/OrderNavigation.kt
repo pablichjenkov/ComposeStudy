@@ -29,7 +29,6 @@ import com.pablichj.study.compose.router.Node
 object OrdersNode : Node("orders")
 
 internal fun NavGraphBuilder.orderGraph() {
-
     composable(OrdersNode.route) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -38,5 +37,4 @@ internal fun NavGraphBuilder.orderGraph() {
             Text(text = "Order Screen")
         }
     }
-
 }

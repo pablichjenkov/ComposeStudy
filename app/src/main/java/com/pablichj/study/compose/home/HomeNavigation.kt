@@ -13,11 +13,11 @@ internal fun NavGraphBuilder.homeGraph(
 ) {
     composable(HomeNode.route) { backStackEntry ->
         val homeViewModel = hiltViewModel<HomeStateViewModel>(backStackEntry)
-        HomeRoute(homeViewModel.homeState, onTopButtonClick)
+        HomeRoute(homeViewModel.homeState)
     }
 }
 
 @Composable
-fun HomeRoute(homeState: IHomeState, onTopButtonClick: () -> Unit) {
-    HomeScreen(homeState = homeState, onTopButtonClick = onTopButtonClick)
+fun HomeRoute(homeState: IHomeState) {
+    HomeScreen(homeState = homeState)
 }

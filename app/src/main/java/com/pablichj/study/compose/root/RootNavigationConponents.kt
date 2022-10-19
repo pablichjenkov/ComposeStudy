@@ -1,4 +1,4 @@
-package com.pablichj.study.compose.router
+package com.pablichj.study.compose.root
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +11,24 @@ import androidx.compose.ui.unit.dp
 import com.pablichj.study.compose.account.AccountNode
 import com.pablichj.study.compose.home.HomeNode
 import com.pablichj.study.compose.order.OrdersNode
+import com.pablichj.study.compose.router.Node
 
+@Composable
+fun NavigationDrawerRoot(
+    modifier: Modifier = Modifier,
+    rootState: IRootState,
+    router: @Composable () -> Unit
+) {
+    val routerState = rootState.routerState
+
+    DrawerNavigationComponent(
+        modifier = modifier,
+        onItemClick = { globalScreen ->
+            routerState.navigate(globalScreen)
+        },
+        content = router
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,19 +57,21 @@ fun DrawerContentList(
     onItemClick: (node: Node) -> Unit
 ) {
     Column(
-        modifier.fillMaxSize().padding(8.dp),
+        modifier
+            .fillMaxSize()
+            .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Card(onClick = { onItemClick(HomeNode)}) {
+        Card(onClick = { onItemClick(HomeNode) }) {
             Text(text = "HOME")
         }
 
-        Card(onClick = {onItemClick(OrdersNode)}) {
+        Card(onClick = { onItemClick(OrdersNode) }) {
             Text(text = "ORDER")
         }
 
-        Card(onClick = {onItemClick(AccountNode)}) {
+        Card(onClick = { onItemClick(AccountNode) }) {
             Text(text = "ACCOUNT")
         }
 

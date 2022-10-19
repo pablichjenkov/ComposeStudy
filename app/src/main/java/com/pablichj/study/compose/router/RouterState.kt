@@ -1,27 +1,31 @@
 package com.pablichj.study.compose.router
 
+import com.pablichj.study.compose.common.DispatchersBin
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.launch
 
-interface IRouterState
+interface IRouterState {
+    var currentRoute: String?
+    val nodeFlow: Flow<Node>
+    fun navigate(node: Node)
+}
 
 class RouterState(
-
+    val dispatchersBin: DispatchersBin
 ) : IRouterState {
 
-    // TODO: inject dispatchers
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+    private val coroutineScope = CoroutineScope(dispatchersBin.main)
 
-    var currentRoute: String? = null
+    override var currentRoute: String? = null
 
-    val _nodeFlow = MutableSharedFlow<Node>()
-    val nodeFlow: Flow<Node> = _nodeFlow.conflate()
+    private val _nodeFlow = MutableSharedFlow<Node>()
+    override val nodeFlow: Flow<Node> =
+        _nodeFlow.conflate() // conflate() Alleviates screen updates too fast
 
-    fun navigate(node: Node) {
+    override fun navigate(node: Node) {
         coroutineScope.launch { _nodeFlow.emit(node) }
     }
 
