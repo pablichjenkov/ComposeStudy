@@ -4,15 +4,16 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.pablichj.study.compose.order.OrdersNode
 import com.pablichj.study.compose.router.Node
 
-object HomeNode : Node("home")
+object HomeNode1 : Node("home1")
 object HomeNode2 : Node("home2")
 
 internal fun NavGraphBuilder.homeGraph(
     onTopButtonClick: () -> Unit
 ) {
-    composable(HomeNode.route) { backStackEntry ->
+    composable(HomeNode1.route) { backStackEntry ->
         val homeViewModel = hiltViewModel<HomeStateViewModel>(backStackEntry)
         HomeRoute(homeViewModel.homeState)
     }
@@ -21,7 +22,7 @@ internal fun NavGraphBuilder.homeGraph(
 
 @Composable
 fun HomeRoute(homeState: IHomeState) {
-    HomeScreen(homeState = homeState, level = 0)
+    HomePage1(homeState = homeState, level = 0, toGoOnClick =  HomeNode2)
 }
 
 internal fun NavGraphBuilder.homeGraph2() {
@@ -33,5 +34,5 @@ internal fun NavGraphBuilder.homeGraph2() {
 
 @Composable
 fun HomeRoute2(homeState: IHomeState) {
-    HomeScreen(homeState = homeState, level = 1)
+    HomePage2(homeState = homeState, toGoOnClick =  OrdersNode)
 }

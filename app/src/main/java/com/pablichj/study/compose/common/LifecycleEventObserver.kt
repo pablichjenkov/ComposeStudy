@@ -1,5 +1,6 @@
 package com.pablichj.study.compose.common
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -37,6 +38,10 @@ fun LifecycleEventObserver(
         // When the effect leaves the Composition, remove the observer
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
+            Log.d(
+                "LifecycleEventObserver",
+                "Pablo Disposing LifecycleEventObserver"
+            )
         }
     }
 

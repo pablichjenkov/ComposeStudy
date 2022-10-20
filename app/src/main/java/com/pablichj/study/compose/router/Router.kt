@@ -11,7 +11,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.pablichj.study.compose.common.LifecycleEventObserver
-import com.pablichj.study.compose.home.HomeNode
+import com.pablichj.study.compose.home.HomeNode1
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -21,7 +21,7 @@ open class Node(val route: String)
 @Composable
 internal fun Router(
     modifier: Modifier = Modifier,
-    routerState: IRouterState, // TODO use the interface IRouterState
+    routerState: IRouterState,
     rootGraphBuilder: NavGraphBuilder.() -> Unit
 ) {
     val navController = rememberNavController()
@@ -31,7 +31,7 @@ internal fun Router(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = HomeNode.route,
+        startDestination = HomeNode1.route,
         builder = rootGraphBuilder
     )
 
@@ -61,6 +61,7 @@ private fun collectRoutes(
 
     return coroutineScope.launch {
         routerState.nodeFlow.collect { node ->
+            Log.d("Router", "Pablo new navigation event. navigateTo(${node.route})")
             navController.navigate(node.route)
         }
     }.apply {

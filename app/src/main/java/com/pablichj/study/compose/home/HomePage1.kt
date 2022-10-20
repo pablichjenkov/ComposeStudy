@@ -1,9 +1,8 @@
 package com.pablichj.study.compose.home
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,19 +11,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.pablichj.study.compose.order.OrdersNode
+import com.pablichj.study.compose.router.Node
 
 @Composable
-fun HomeScreen(
+fun HomePage1(
     modifier: Modifier = Modifier,
     homeState: IHomeState,
-    level: Int
+    level: Int,
+    toGoOnClick: Node
 ) {
 
     val homeStateName = remember { mutableStateOf(homeState.name) }
 
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.size(40.dp))
@@ -32,7 +32,7 @@ fun HomeScreen(
         Spacer(Modifier.size(40.dp))
         Button(
             onClick = {
-                homeState.routerState.navigate(HomeNode2)
+                homeState.routerState.navigate(toGoOnClick)
             }
         ) {
             Text(text = "Home State = ${homeStateName.value}")
