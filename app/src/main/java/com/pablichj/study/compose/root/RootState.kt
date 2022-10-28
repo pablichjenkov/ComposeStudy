@@ -4,21 +4,21 @@ import androidx.lifecycle.ViewModel
 import com.pablichj.study.compose.common.DispatchersBin
 import com.pablichj.study.compose.data.Interactor
 import com.pablichj.study.compose.router.IRouterState
-import com.pablichj.study.compose.router.RouterState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class RootStateStateViewModel @Inject constructor(
-    val rootState: IRootState
+    val rootState: IRootState,
+    val routerState: IRouterState
 ) : ViewModel()
 
 interface IRootState {
-    val routerState: IRouterState
+    val rootNavActions: RootNavActions
 }
 
 class RootState @Inject constructor(
-    override val routerState: IRouterState,
+    override val rootNavActions: RootNavActions,
     val interactor: Interactor,
     val dispatchersBin: DispatchersBin
 ) : IRootState {

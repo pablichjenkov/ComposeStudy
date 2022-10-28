@@ -8,23 +8,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.pablichj.study.compose.account.AccountGraph
-import com.pablichj.study.compose.home.HomeGraph
-import com.pablichj.study.compose.order.OrdersGraph
-import com.pablichj.study.compose.router.Node
+import com.pablichj.study.compose.router.IRouterState
 
 @Composable
 fun NavigationDrawerRoot(
     modifier: Modifier = Modifier,
     rootState: IRootState,
+    routerState: IRouterState,
     router: @Composable () -> Unit
 ) {
-    val routerState = rootState.routerState
-
     DrawerNavigationComponent(
         modifier = modifier,
-        onItemClick = { globalScreen ->
-            routerState.navigate(globalScreen)
+        onItemClick = { rootNode ->
+            routerState.navigate(rootState.rootNavActions.getNavAction(rootNode))
         },
         content = router
     )
@@ -34,7 +30,7 @@ fun NavigationDrawerRoot(
 @Composable
 fun DrawerNavigationComponent(
     modifier: Modifier,
-    onItemClick: (node: Node) -> Unit,
+    onItemClick: (rootNode: RootNode) -> Unit,
     content: @Composable () -> Unit
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -54,7 +50,7 @@ fun DrawerNavigationComponent(
 @Composable
 fun DrawerContentList(
     modifier: Modifier = Modifier,
-    onItemClick: (node: Node) -> Unit
+    onItemClick: (rootNode: RootNode) -> Unit
 ) {
     Column(
         modifier
@@ -63,15 +59,15 @@ fun DrawerContentList(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Card(onClick = { onItemClick(HomeGraph) }) {
+        Card(onClick = { onItemClick(RootNode.RootHomeGraph) }) {
             Text(text = "HOME")
         }
 
-        Card(onClick = { onItemClick(OrdersGraph) }) {
+        Card(onClick = { onItemClick(RootNode.RootOrdersGraph) }) {
             Text(text = "ORDER")
         }
 
-        Card(onClick = { onItemClick(AccountGraph) }) {
+        Card(onClick = { onItemClick(RootNode.RootAccountGraph) }) {
             Text(text = "ACCOUNT")
         }
 
@@ -82,7 +78,7 @@ fun DrawerContentList(
 @Composable
 fun DrawerContentModal(
     modifier: Modifier = Modifier,
-    onItemClick: (node: Node) -> Unit
+    onItemClick: (rootNode: RootNode) -> Unit,
 ) {
     ModalDrawerSheet(modifier = modifier) {
         DrawerContentList(onItemClick = onItemClick)

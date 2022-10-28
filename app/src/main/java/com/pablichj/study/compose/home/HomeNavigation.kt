@@ -37,7 +37,9 @@ fun HomeRoute1(routerState: IRouterState, homeState: IHomeState) {
         homeState = homeState,
         level = 0,
         onClick = {
-            routerState.navigate(HomeNode2)
+            routerState.navigate {
+                it.navigate(HomeNode2.route)
+            }
         }
     )
 }
@@ -47,5 +49,10 @@ fun HomeRoute2(
     routerState: IRouterState,
     homeState: IHomeState
 ) {
-    HomePage2(homeState = homeState, onClick = { routerState.navigate(HomeNode1) })
+    HomePage2(
+        homeState = homeState,
+        onClick = {
+            routerState.navigate { it.navigate(HomeNode1.route) }
+        }
+    )
 }

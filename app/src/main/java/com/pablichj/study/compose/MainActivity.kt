@@ -11,13 +11,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.rememberNavController
+import com.pablichj.study.compose.home.HomeGraph
 import com.pablichj.study.compose.root.NavigationDrawerRoot
 import com.pablichj.study.compose.root.RootStateStateViewModel
 import com.pablichj.study.compose.root.rootGraph
 import com.pablichj.study.compose.router.Router
 import com.pablichj.study.compose.ui.theme.ComposeStudyTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.coroutineScope
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -35,16 +35,22 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     val rootState = rootStateStateViewModel.rootState
+                    val routerState = rootStateStateViewModel.routerState.apply {
+                        startDestination = HomeGraph.route
+                    }
 
                     /** A Router is intended to be provided per each OS platform.
                      * Android is based on NavHost and NavController but Desktop could be using
                      * something different.
                      * */
-                    NavigationDrawerRoot(rootState = rootState) {
+                    NavigationDrawerRoot(
+                        rootState = rootState,
+                        routerState = routerState
+                    ) {
                         Router(
                             navController = rememberNavController(),
                             coroutineScope = rememberCoroutineScope(),
-                            routerState = rootState.routerState,
+                            routerState = routerState,
                             rootGraphBuilder = NavGraphBuilder::rootGraph
                         )
                     }
@@ -52,4 +58,5 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 }

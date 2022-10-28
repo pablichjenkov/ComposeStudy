@@ -10,7 +10,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.pablichj.study.compose.common.LifecycleEventObserver
-import com.pablichj.study.compose.home.HomeGraph
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -30,7 +29,7 @@ internal fun Router(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = HomeGraph.route,
+        startDestination = routerState.startDestination,
     ) {
         rootGraphBuilder(routerState)
     }
@@ -53,16 +52,19 @@ private fun collectRoutes(
 ): Job {
     val destinationChangeListener =
         NavController.OnDestinationChangedListener { controller, destination, arguments ->
-            routerState.currentRoute = destination.route
-            Log.d("Router", "Pablo currentRoute = ${destination.route}")
+            routerState.currentRoute = destination.route ?: destination.displayName
+            navController.backQueue.fold("") { acc, navBackStackEntry ->
+                val route = navBackStackEntry.destination.route
+                    ?: navBackStackEntry.destination.id
+                "${acc}/$route"
+            }.also { Log.d("Router", "BackStack: $it") }
         }
-
+    Log.d("Router", "Pablo Adding addOnDestinationChangedListener")
     navController.addOnDestinationChangedListener(destinationChangeListener)
 
     return coroutineScope.launch {
-        routerState.nodeFlow.collect { node ->
-            Log.d("Router", "Pablo new navigation event. navigateTo(${node.route})")
-            navController.navigate(node.route)
+        routerState.navActionFlow.collect { navActionLambda ->
+            navActionLambda(navController)
         }
     }.apply {
         invokeOnCompletion { th ->
