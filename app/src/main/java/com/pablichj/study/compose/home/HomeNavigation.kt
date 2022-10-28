@@ -4,25 +4,39 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.pablichj.study.compose.order.OrdersNode
+import androidx.navigation.navigation
+import com.pablichj.study.compose.account.AccountGraph
+import com.pablichj.study.compose.order.OrdersGraph
 import com.pablichj.study.compose.router.Node
 
-object HomeNode1 : Node("home1")
-object HomeNode2 : Node("home2")
+object HomeGraph : Node("homeGraph")
+private object HomeNode1 : Node("home1")
+private object HomeNode2 : Node("home2")
 
 internal fun NavGraphBuilder.homeGraph(
     onTopButtonClick: () -> Unit
 ) {
-    composable(HomeNode1.route) { backStackEntry ->
-        val homeViewModel = hiltViewModel<HomeStateViewModel>(backStackEntry)
-        HomeRoute(homeViewModel.homeState)
+    navigation(
+        route = HomeGraph.route,
+        startDestination = HomeNode1.route
+    ) {
+        composable(HomeNode1.route) { backStackEntry ->
+            val homeViewModel = hiltViewModel<HomeStateViewModel>(backStackEntry)
+            HomeRoute(homeViewModel.homeState)
+        }
+        homeGraph2()
     }
-    homeGraph2()
 }
 
 @Composable
 fun HomeRoute(homeState: IHomeState) {
-    HomePage1(homeState = homeState, level = 0, toGoOnClick =  HomeNode2)
+    HomePage1(
+        homeState = homeState,
+        level = 0,
+        onClick = {
+            homeState.routerState.navigate(AccountGraph)
+        }
+    )
 }
 
 internal fun NavGraphBuilder.homeGraph2() {
@@ -34,5 +48,5 @@ internal fun NavGraphBuilder.homeGraph2() {
 
 @Composable
 fun HomeRoute2(homeState: IHomeState) {
-    HomePage2(homeState = homeState, toGoOnClick =  OrdersNode)
+    HomePage2(homeState = homeState, toGoOnClick =  OrdersGraph)
 }

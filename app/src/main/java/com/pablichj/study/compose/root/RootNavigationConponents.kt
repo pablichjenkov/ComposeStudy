@@ -8,9 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.pablichj.study.compose.account.AccountNode
-import com.pablichj.study.compose.home.HomeNode1
-import com.pablichj.study.compose.order.OrdersNode
+import com.pablichj.study.compose.account.AccountGraph
+import com.pablichj.study.compose.home.HomeGraph
+import com.pablichj.study.compose.order.OrdersGraph
 import com.pablichj.study.compose.router.Node
 
 @Composable
@@ -63,15 +63,15 @@ fun DrawerContentList(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Card(onClick = { onItemClick(HomeNode1) }) {
+        Card(onClick = { onItemClick(HomeGraph) }) {
             Text(text = "HOME")
         }
 
-        Card(onClick = { onItemClick(OrdersNode) }) {
+        Card(onClick = { onItemClick(OrdersGraph) }) {
             Text(text = "ORDER")
         }
 
-        Card(onClick = { onItemClick(AccountNode) }) {
+        Card(onClick = { onItemClick(AccountGraph) }) {
             Text(text = "ACCOUNT")
         }
 

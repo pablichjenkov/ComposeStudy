@@ -18,23 +18,28 @@ package com.pablichj.study.compose.order
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
 import com.pablichj.study.compose.router.Node
 
-
-object OrdersNode : Node("orders")
+object OrdersGraph : Node("ordersGraph")
+private object OrdersNode : Node("orders")
 
 internal fun NavGraphBuilder.orderGraph() {
-    composable(OrdersNode.route) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = "Order Screen")
+    navigation(
+        route = OrdersGraph.route,
+        startDestination = OrdersNode.route
+    ) {
+        composable(OrdersNode.route) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                BlueRedTextCentered()
+            }
         }
     }
 }

@@ -11,14 +11,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.pablichj.study.compose.router.Node
 
 @Composable
 fun HomePage1(
     modifier: Modifier = Modifier,
     homeState: IHomeState,
     level: Int,
-    toGoOnClick: Node
+    onClick: () -> Unit
 ) {
 
     val homeStateName = remember { mutableStateOf(homeState.name) }
@@ -31,9 +30,7 @@ fun HomePage1(
         Text(text = "Home Screen level: $level")
         Spacer(Modifier.size(40.dp))
         Button(
-            onClick = {
-                homeState.routerState.navigate(toGoOnClick)
-            }
+            onClick = onClick
         ) {
             Text(text = "Home State = ${homeStateName.value}")
         }

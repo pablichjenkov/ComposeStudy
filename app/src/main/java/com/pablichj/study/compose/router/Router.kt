@@ -11,7 +11,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.pablichj.study.compose.common.LifecycleEventObserver
-import com.pablichj.study.compose.home.HomeNode1
+import com.pablichj.study.compose.home.HomeGraph
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -31,7 +31,7 @@ internal fun Router(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = HomeNode1.route,
+        startDestination = HomeGraph.route,
         builder = rootGraphBuilder
     )
 
