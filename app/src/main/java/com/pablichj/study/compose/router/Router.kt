@@ -3,13 +3,12 @@ package com.pablichj.study.compose.router
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import com.pablichj.study.compose.common.LifecycleEventObserver
 import com.pablichj.study.compose.home.HomeGraph
 import kotlinx.coroutines.CoroutineScope
@@ -21,19 +20,20 @@ open class Node(val route: String)
 @Composable
 internal fun Router(
     modifier: Modifier = Modifier,
+    navController: NavHostController,
+    coroutineScope: CoroutineScope,
     routerState: IRouterState,
-    rootGraphBuilder: NavGraphBuilder.() -> Unit
+    rootGraphBuilder: NavGraphBuilder.(IRouterState) -> Unit,
 ) {
-    val navController = rememberNavController()
-    val coroutineScope = rememberCoroutineScope()
     var routerJob: Job? = remember { null }
 
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = HomeGraph.route,
-        builder = rootGraphBuilder
-    )
+    ) {
+        rootGraphBuilder(routerState)
+    }
 
     LifecycleEventObserver(
         lifecycleOwner = LocalLifecycleOwner.current,

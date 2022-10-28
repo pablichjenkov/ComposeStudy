@@ -5,8 +5,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.pablichj.study.compose.account.AccountGraph
-import com.pablichj.study.compose.order.OrdersGraph
+import com.pablichj.study.compose.router.IRouterState
 import com.pablichj.study.compose.router.Node
 
 object HomeGraph : Node("homeGraph")
@@ -14,6 +13,7 @@ private object HomeNode1 : Node("home1")
 private object HomeNode2 : Node("home2")
 
 internal fun NavGraphBuilder.homeGraph(
+    routerState: IRouterState,
     onTopButtonClick: () -> Unit
 ) {
     navigation(
@@ -22,31 +22,30 @@ internal fun NavGraphBuilder.homeGraph(
     ) {
         composable(HomeNode1.route) { backStackEntry ->
             val homeViewModel = hiltViewModel<HomeStateViewModel>(backStackEntry)
-            HomeRoute(homeViewModel.homeState)
+            HomeRoute1(routerState, homeViewModel.homeState)
         }
-        homeGraph2()
+        composable(HomeNode2.route) { backStackEntry ->
+            val homeViewModel = hiltViewModel<HomeStateViewModel>(backStackEntry)
+            HomeRoute2(routerState, homeViewModel.homeState)
+        }
     }
 }
 
 @Composable
-fun HomeRoute(homeState: IHomeState) {
+fun HomeRoute1(routerState: IRouterState, homeState: IHomeState) {
     HomePage1(
         homeState = homeState,
         level = 0,
         onClick = {
-            homeState.routerState.navigate(AccountGraph)
+            routerState.navigate(HomeNode2)
         }
     )
 }
 
-internal fun NavGraphBuilder.homeGraph2() {
-    composable(HomeNode2.route) { backStackEntry ->
-        val homeViewModel = hiltViewModel<HomeStateViewModel>(backStackEntry)
-        HomeRoute2(homeViewModel.homeState)
-    }
-}
-
 @Composable
-fun HomeRoute2(homeState: IHomeState) {
-    HomePage2(homeState = homeState, toGoOnClick =  OrdersGraph)
+fun HomeRoute2(
+    routerState: IRouterState,
+    homeState: IHomeState
+) {
+    HomePage2(homeState = homeState, onClick = { routerState.navigate(HomeNode1) })
 }

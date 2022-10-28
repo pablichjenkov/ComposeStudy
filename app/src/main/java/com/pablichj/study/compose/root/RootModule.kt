@@ -2,19 +2,14 @@ package com.pablichj.study.compose.root
 
 import com.pablichj.study.compose.common.DispatchersBin
 import com.pablichj.study.compose.common.Platform
-import com.pablichj.study.compose.data.Interactor
 import com.pablichj.study.compose.router.IRouterState
 import com.pablichj.study.compose.router.RouterState
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.ActivityRetainedComponent
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import dagger.hilt.components.SingletonComponent
-import javax.annotation.meta.When
 
 /**
  * A RootComposable lives in the Activity scope so lets install this module in the
@@ -29,13 +24,12 @@ object RootModule {
     fun providesRouter(
         dispatchersBin: DispatchersBin
     ): IRouterState {
-        return when(Platform.system) {
+        return when (Platform.system) {
             Platform.System.ANDROID -> RouterState(dispatchersBin)
             Platform.System.IOS,
             Platform.System.MACOS,
             Platform.System.WINDOWS -> RouterState(dispatchersBin)
         }
-
     }
 
 }

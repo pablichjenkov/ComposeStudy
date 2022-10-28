@@ -10,7 +10,7 @@ import dagger.hilt.android.components.ViewModelComponent
 abstract class HomeModuleAdapter {
 
     @Binds
-    abstract fun bindHomeViewModel(
+    abstract fun bindAccountState(
         homeState: AccountState
     ): IAccountState
 

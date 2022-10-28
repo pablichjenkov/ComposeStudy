@@ -23,7 +23,7 @@ import com.pablichj.study.compose.router.Node
 fun HomePage2(
     modifier: Modifier = Modifier,
     homeState: IHomeState,
-    toGoOnClick: Node
+    onClick: () -> Unit
 ) {
 
     //var boxWithConstraints by remember { mutableStateOf(0f) }

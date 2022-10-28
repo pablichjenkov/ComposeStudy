@@ -23,12 +23,15 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.pablichj.study.compose.router.IRouterState
 import com.pablichj.study.compose.router.Node
 
 object OrdersGraph : Node("ordersGraph")
 private object OrdersNode : Node("orders")
 
-internal fun NavGraphBuilder.orderGraph() {
+internal fun NavGraphBuilder.orderGraph(
+    routerState: IRouterState
+) {
     navigation(
         route = OrdersGraph.route,
         startDestination = OrdersNode.route

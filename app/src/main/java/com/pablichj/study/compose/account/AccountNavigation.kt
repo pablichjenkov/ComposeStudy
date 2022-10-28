@@ -5,12 +5,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.pablichj.study.compose.home.HomeGraph
+import com.pablichj.study.compose.router.IRouterState
 import com.pablichj.study.compose.router.Node
 
 object AccountGraph : Node("accountGraph")
 private object AccountNode : Node("accountNode")
 
-internal fun NavGraphBuilder.accountGraph() {
+internal fun NavGraphBuilder.accountGraph(routerState: IRouterState) {
     navigation(
         route = AccountGraph.route,
         startDestination = AccountNode.route
@@ -21,7 +22,7 @@ internal fun NavGraphBuilder.accountGraph() {
             AccountPage(
                 accountState = accountState,
                 onResult = {
-                    accountState.routerState.navigate(HomeGraph)
+                    routerState.navigate(HomeGraph)
                 }
             )
         }
