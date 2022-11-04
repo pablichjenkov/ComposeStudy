@@ -24,8 +24,6 @@ internal fun Router(
     routerState: IRouterState,
     rootGraphBuilder: NavGraphBuilder.(IRouterState) -> Unit,
 ) {
-    var routerJob: Job? = remember { null }
-
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -34,13 +32,17 @@ internal fun Router(
         rootGraphBuilder(routerState)
     }
 
+    // We don't use collectAsStateWithLifecycle() because that function implies to set an initial
+    // value everytime this Composable underlying lifecycleOwner enters onStart. That behavior
+    // creates duplicate destinations, and we don't want the distinctUntilChanged() behavior either
+    // because we want to allow to push screens of the same type on top of each other.
     LifecycleEventObserver(
         lifecycleOwner = LocalLifecycleOwner.current,
         onStart = {
-            routerJob = collectRoutes(coroutineScope, navController, routerState)
+            routerState.routerJob = collectRoutes(coroutineScope, navController, routerState)
         },
         onStop = {
-            routerJob?.cancel()
+            routerState.routerJob?.cancel()
         }
     )
 }

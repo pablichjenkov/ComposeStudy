@@ -30,7 +30,7 @@ fun NavigationBottom(
     )
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Bottom
     ) {
         Box(

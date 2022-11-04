@@ -13,7 +13,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -58,21 +57,21 @@ class RootState @Inject constructor(
                 selected = true
             ),
             NavItemInfo(
-                label = "Orders",
+                label = "Layout",
                 icon = Icons.Filled.Reorder,
                 rootNode = RootNode.RootOrdersGraph,
                 selected = false
             ),
             NavItemInfo(
-                label = "Account",
+                label = "Offset",
                 icon = Icons.Filled.ManageAccounts,
                 rootNode = RootNode.RootAccountGraph,
                 selected = false
             ),
             NavItemInfo(
-                label = "Nested",
+                label = "Effects",
                 icon = Icons.Filled.NestCamWiredStand,
-                rootNode = RootNode.RootNestedGraph,
+                rootNode = RootNode.RootEffectsGraph,
                 selected = false
             ),
             NavItemInfo(

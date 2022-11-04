@@ -1,8 +1,10 @@
 package com.pablichj.study.compose.router
 
+import androidx.compose.runtime.remember
 import androidx.navigation.NavController
 import com.pablichj.study.compose.common.DispatchersBin
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,6 +15,7 @@ typealias NavActionLambda = (NavController) -> Unit
 
 interface IRouterState {
     var startDestination: String
+    var routerJob: Job?
     val currentRouteFlow: Flow<String>
     val navActionFlow: Flow<NavActionLambda>
     fun navigate(navActionLambda: NavActionLambda)
@@ -25,6 +28,8 @@ class RouterState(
 ) : IRouterState {
 
     private val coroutineScope = CoroutineScope(dispatchersBin.main)
+
+    override var routerJob: Job? = null
 
     private val _currentRouteFlow = MutableStateFlow<String>(startDestination)
     override val currentRouteFlow: Flow<String> =_currentRouteFlow

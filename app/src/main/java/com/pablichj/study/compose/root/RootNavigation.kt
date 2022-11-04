@@ -7,10 +7,10 @@ import androidx.navigation.activity
 import com.pablichj.study.compose.MainActivity
 import com.pablichj.study.compose.account.AccountGraph
 import com.pablichj.study.compose.account.accountGraph
+import com.pablichj.study.compose.effects.EffectsGraph
+import com.pablichj.study.compose.effects.effectsGraph
 import com.pablichj.study.compose.home.HomeGraph
 import com.pablichj.study.compose.home.homeGraph
-import com.pablichj.study.compose.nest.NestedGraph
-import com.pablichj.study.compose.nest.nestGraph
 import com.pablichj.study.compose.order.OrdersGraph
 import com.pablichj.study.compose.order.orderGraph
 import com.pablichj.study.compose.router.IRouterState
@@ -25,7 +25,7 @@ sealed class RootNode {
     object RootHomeGraph : RootNode()
     object RootOrdersGraph : RootNode()
     object RootAccountGraph : RootNode()
-    object RootNestedGraph : RootNode()
+    object RootEffectsGraph : RootNode()
     object RootActivityGraph : RootNode()
 }
 
@@ -33,7 +33,7 @@ fun NavGraphBuilder.rootGraph(routerState: IRouterState) {
     homeGraph(routerState, onTopButtonClick = { })
     orderGraph(routerState)
     accountGraph(routerState)
-    nestGraph(routerState)
+    effectsGraph(routerState)
     this.activity("MainActivityRoute") {
         this.activityClass = MainActivity::class
     }
@@ -47,7 +47,7 @@ class RootNavActions @Inject constructor() {
             RootNode.RootAccountGraph -> navigateToAccountGraph
             RootNode.RootOrdersGraph -> navigateToOrdersGraph
             RootNode.RootActivityGraph -> navigateToActivity
-            RootNode.RootNestedGraph -> navigateToNestedGraph
+            RootNode.RootEffectsGraph -> navigateToEffectsGraph
         }
     }
 
@@ -87,9 +87,14 @@ class RootNavActions @Inject constructor() {
             restoreState = true
         }
     }
-    val navigateToNestedGraph: (navController: NavController) -> Unit = { navController ->
-        navController.navigate(NestedGraph.route) {
+    val navigateToEffectsGraph: (navController: NavController) -> Unit = { navController ->
+        navController.navigate(EffectsGraph.route)  {
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+                inclusive = false
+            }
             launchSingleTop = true
+            restoreState = true
         }
     }
     val navigateToActivity: (navController: NavController) -> Unit = { navController ->

@@ -37,22 +37,17 @@ fun HomeRoute1(routerState: IRouterState, homeState: IHomeState) {
         homeState = homeState,
         level = 0,
         onClick = {
-            routerState.navigate {
-                it.navigate(HomeNode2.route)
-            }
+            routerState.navigate { it.navigate(HomeNode2.route) }
         }
     )
 }
 
 @Composable
-fun HomeRoute2(
-    routerState: IRouterState,
-    homeState: IHomeState
-) {
+fun HomeRoute2(routerState: IRouterState, homeState: IHomeState) {
     HomePage2(
         homeState = homeState,
         onClick = {
-            routerState.navigate { it.navigate(HomeNode1.route) }
+            //routerState.navigate { it.navigate(HomeNode2.route) }
         }
     )
 }

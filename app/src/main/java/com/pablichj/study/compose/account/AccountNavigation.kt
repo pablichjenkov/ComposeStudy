@@ -45,5 +45,5 @@ fun AccountRoute1(routerState: IRouterState, accountState: IAccountState) {
 
 @Composable
 fun AccountRoute2(routerState: IRouterState, accountState: IAccountState) {
-    Text(text = "Hi!, I am inside Account Route 2")
+    Text(text = "Hi!, I am in Account Graph, Route 2")
 }
