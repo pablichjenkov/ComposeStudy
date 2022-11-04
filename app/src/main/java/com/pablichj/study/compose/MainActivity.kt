@@ -4,12 +4,21 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Navigation
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.rememberNavController
 import com.pablichj.study.compose.home.HomeGraph
@@ -27,7 +36,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private var rootNavigationType: RootNavigationType = RootNavigationType.BottomBar
     private val rootStateStateViewModel by viewModels<RootStateStateViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,19 +54,37 @@ class MainActivity : ComponentActivity() {
                     }
                     rootState.setRouterState(routerState)
 
+                    var rootNavigationType by remember {
+                        mutableStateOf(RootNavigationType.BottomBar)
+                    }
+
                     /** A Router is intended to be provided per each OS platform.
                      * Android is based on NavHost and NavController but Desktop could be using
                      * something different.
                      * */
-                    when (rootNavigationType) {
-                        RootNavigationType.Drawer -> {
-                            BuildDrawer(rootState, routerState)
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        when (rootNavigationType) {
+                            RootNavigationType.Drawer -> {
+                                BuildDrawer(rootState, routerState)
+                            }
+                            RootNavigationType.BottomBar -> {
+                                BuildBottomBar(rootState, routerState)
+                            }
                         }
-                        RootNavigationType.BottomBar -> {
-                            BuildBottomBar(rootState, routerState)
+                        FloatingActionButton(
+                            modifier = Modifier
+                                .offset(x = (-8).dp, y = (-88).dp)
+                                .size(48.dp)
+                                .align(Alignment.BottomEnd),
+                            onClick = { rootNavigationType = rootNavigationType.toggle() },
+                            contentColor = Color.Yellow
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Navigation,
+                                contentDescription = "nav switcher"
+                            )
                         }
                     }
-
                 }
             }
         }

@@ -1,9 +1,5 @@
 package com.pablichj.study.compose.effects
 
-import androidx.compose.foundation.clickable
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
@@ -20,20 +16,12 @@ internal fun NavGraphBuilder.effectsGraph(routerState: IRouterState) {
         startDestination = EffectNode1.route
     ) {
         composable(EffectNode1.route) { navBackstackEntry ->
-            EffectsLambdaCapturePage(100)
+            EffectsPage1(100) {
+                routerState.navigate { it.navigate(EffectNode2.route) }
+            }
         }
         composable(EffectNode2.route) { navBackstackEntry ->
             EffectPage2()
         }
     }
-}
-
-@Composable
-fun EffectPage2() {
-    Text(
-        modifier = Modifier.clickable {
-            //navController.navigate(NestNode2.route)
-        },
-        text = "Hi!, I am inside Effect Route 2"
-    )
 }

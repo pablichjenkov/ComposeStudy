@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun EffectsLambdaCapturePage(inputParam: Int) {
+fun EffectsPage1(inputParam: Int, onGotoPage2Click: () -> Unit) {
 
     var counter by remember {
         mutableStateOf(0)
@@ -62,15 +62,25 @@ fun EffectsLambdaCapturePage(inputParam: Int) {
                 .fillMaxWidth()
                 .height(48.dp)
         )
-        if (counter < 5) {
+        if (counter < 4) {
             EffectComposable(countText = counter.toString(), counterRememberOnly)
+        } else {
+            Button(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                onClick = { onGotoPage2Click() }
+            ) {
+                Text(text = "Go to Effects Page 2")
+            }
         }
     }
 }
 
 @Composable
 fun ColumnScope.EffectComposable(countText: String, counterRememberOnly: Int) {
-    Log.d("EffectsLambdaCapturePage", "Recomposing EffectComposable:\n countText = $countText, counterRememberOnly=$counterRememberOnly")
+    Log.d(
+        "EffectsLambdaCapturePage",
+        "Recomposing EffectComposable:\n countText = $countText, counterRememberOnly=$counterRememberOnly"
+    )
 
     val countTextRememberUpdated by rememberUpdatedState(newValue = countText)
 

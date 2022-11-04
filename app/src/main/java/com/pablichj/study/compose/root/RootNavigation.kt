@@ -18,7 +18,14 @@ import javax.inject.Inject
 
 enum class RootNavigationType {
     Drawer,
-    BottomBar
+    BottomBar;
+
+    fun toggle(): RootNavigationType {
+        return when(this) {
+            Drawer -> BottomBar
+            BottomBar -> Drawer
+        }
+    }
 }
 
 sealed class RootNode {
