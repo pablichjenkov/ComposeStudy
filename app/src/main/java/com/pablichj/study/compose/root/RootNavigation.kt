@@ -16,6 +16,11 @@ import com.pablichj.study.compose.order.orderGraph
 import com.pablichj.study.compose.router.IRouterState
 import javax.inject.Inject
 
+enum class RootNavigationType {
+    Drawer,
+    BottomBar
+}
+
 sealed class RootNode {
     object RootHomeGraph : RootNode()
     object RootOrdersGraph : RootNode()
@@ -83,7 +88,9 @@ class RootNavActions @Inject constructor() {
         }
     }
     val navigateToNestedGraph: (navController: NavController) -> Unit = { navController ->
-        navController.navigate(NestedGraph.route)
+        navController.navigate(NestedGraph.route) {
+            launchSingleTop = true
+        }
     }
     val navigateToActivity: (navController: NavController) -> Unit = { navController ->
         navController.navigate("MainActivityRoute")

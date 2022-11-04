@@ -1,39 +1,28 @@
-package com.pablichj.study.compose.root
+package com.pablichj.study.compose.root.drawer
 
 import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.pablichj.study.compose.root.drawer.NavItemInfo
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.pablichj.study.compose.root.IRootState
 import kotlinx.coroutines.launch
-
-@Composable
-fun NavigationDrawerRoot(
-    modifier: Modifier = Modifier,
-    rootState: IRootState,
-    router: @Composable () -> Unit
-) {
-    DrawerNavigationComponent(
-        modifier = modifier,
-        rootState = rootState,
-        content = router
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DrawerNavigationComponent(
-    modifier: Modifier,
+fun NavigationDrawer(
+    modifier: Modifier = Modifier,
     rootState: IRootState,
-    content: @Composable () -> Unit
+    Router: @Composable () -> Unit
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
 
@@ -45,7 +34,7 @@ fun DrawerNavigationComponent(
         drawerState = drawerState,
         gesturesEnabled = true,
         scrimColor = DrawerDefaults.scrimColor,
-        content = content
+        content = Router
     )
 
     LaunchedEffect(key1 = rootState) {
@@ -61,13 +50,16 @@ fun DrawerNavigationComponent(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLifecycleComposeApi::class)
 @Composable
 fun DrawerContentModal(
     modifier: Modifier = Modifier,
     rootState: IRootState
 ) {
-    val navItems by rootState.navItemsFlow.collectAsState(initial = emptyList())
+    val navItems by rootState.navItemsFlow.collectAsStateWithLifecycle(
+        initialValue = emptyList(),
+        lifecycle = LocalLifecycleOwner.current.lifecycle
+    )
 
     ModalDrawerSheet(modifier = modifier) {
         Column {
