@@ -52,7 +52,7 @@ private fun collectRoutes(
 ): Job {
     val destinationChangeListener =
         NavController.OnDestinationChangedListener { controller, destination, arguments ->
-            routerState.currentRoute = destination.route ?: destination.displayName
+            routerState.dispatchNewRouter(destination.route ?: destination.displayName)
             navController.backQueue.fold("") { acc, navBackStackEntry ->
                 val route = navBackStackEntry.destination.route
                     ?: navBackStackEntry.destination.id

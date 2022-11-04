@@ -38,15 +38,13 @@ class MainActivity : ComponentActivity() {
                     val routerState = rootStateStateViewModel.routerState.apply {
                         startDestination = HomeGraph.route
                     }
+                    rootState.setRouterState(routerState)
 
                     /** A Router is intended to be provided per each OS platform.
                      * Android is based on NavHost and NavController but Desktop could be using
                      * something different.
                      * */
-                    NavigationDrawerRoot(
-                        rootState = rootState,
-                        routerState = routerState
-                    ) {
+                    NavigationDrawerRoot(rootState = rootState) {
                         Router(
                             navController = rememberNavController(),
                             coroutineScope = rememberCoroutineScope(),
