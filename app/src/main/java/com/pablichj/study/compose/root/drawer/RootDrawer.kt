@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 fun NavigationDrawer(
     modifier: Modifier = Modifier,
     rootState: IRootState,
-    Router: @Composable () -> Unit
+    content: @Composable () -> Unit
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
 
@@ -34,7 +34,7 @@ fun NavigationDrawer(
         drawerState = drawerState,
         gesturesEnabled = true,
         scrimColor = DrawerDefaults.scrimColor,
-        content = Router
+        content = content
     )
 
     LaunchedEffect(key1 = rootState) {
